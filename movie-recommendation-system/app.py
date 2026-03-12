@@ -44,7 +44,7 @@ movies = load_data()
 @st.cache_resource
 def create_similarity(movies):
 
-    cv = CountVectorizer(max_features=5000, stop_words='english')
+    cv = CountVectorizer(max_features=2000, stop_words='english')
     vectors = cv.fit_transform(movies['tags']).toarray()
 
     similarity = cosine_similarity(vectors)
