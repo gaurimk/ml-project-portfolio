@@ -1,6 +1,16 @@
+# Virtual environments
 venv/
+.env
+
+# Python cache
 __pycache__/
 *.pyc
-.ipynb_checkpoints
+
+# Jupyter
+.ipynb_checkpoints/
+
+# MacOS
 .DS_Store
-.env
+
+# Ignore datasets
+sentiment-analysis/data/
