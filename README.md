@@ -22,3 +22,10 @@ Estimate the **price of a house** based on features like living area, number of 
 Classify movie reviews as **Positive or Negative** using Natural Language Processing with **TF-IDF vectorization and machine learning**.
 
 [![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-red?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-owz2cuq7cvt9oynu7wqxqx.streamlit.app/)
+
+---
+
+### 🎥 Movie Recommendation System
+Get **Top 5 similar movie recommendations** based on the movie you select using **Content-Based Filtering and Cosine Similarity**.
+
+[![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-purple?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-dujh6rmynfal3mzss3rcwt.streamlit.app/)
