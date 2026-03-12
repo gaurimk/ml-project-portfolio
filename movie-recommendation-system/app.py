@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import requests
+from sklearn.metrics.pairwise import cosine_similarity
 
 # -----------------------------
 # PAGE CONFIG
@@ -17,17 +18,15 @@ st.set_page_config(
 @st.cache_resource
 def load_models():
     movies = pickle.load(open("models/movies.pkl", "rb"))
-    similarity = pickle.load(open("models/similarity.pkl", "rb"))
-    return movies, similarity
+    vectors = pickle.load(open("models/vectors.pkl", "rb"))
+    return movies, vectors
 
-movies, similarity = load_models()
-
+movies, vectors = load_models()
 
 # -----------------------------
 # TMDB API KEY
 # -----------------------------
 API_KEY = st.secrets["tmdb_api_key"]
-
 
 # -----------------------------
 # FETCH POSTER (CACHED)
@@ -35,9 +34,9 @@ API_KEY = st.secrets["tmdb_api_key"]
 @st.cache_data
 def fetch_poster(movie_title):
 
-    search_url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
 
-    response = requests.get(search_url)
+    response = requests.get(url)
     data = response.json()
 
     if data.get("results"):
@@ -57,10 +56,10 @@ def recommend(movie):
 
     index = movies[movies["title"] == movie].index[0]
 
-    distances = similarity[index]
+    similarity_scores = cosine_similarity([vectors[index]], vectors)[0]
 
     movie_list = sorted(
-        list(enumerate(distances)),
+        list(enumerate(similarity_scores)),
         reverse=True,
         key=lambda x: x[1]
     )[1:6]
@@ -70,12 +69,10 @@ def recommend(movie):
 
     for i in movie_list:
 
-        movie_title = movies.iloc[i[0]]["title"]
+        movie_title = movies.iloc[i[0]].title
 
         recommended_movies.append(movie_title)
-
-        poster = fetch_poster(movie_title)
-        recommended_posters.append(poster)
+        recommended_posters.append(fetch_poster(movie_title))
 
     return recommended_movies, recommended_posters
 
@@ -106,7 +103,6 @@ with col2:
 if recommend_btn:
 
     st.divider()
-
     st.subheader("🎥 Recommended Movies")
 
     names, posters = recommend(selected_movie)
