@@ -7,3 +7,4 @@ xgboost
 streamlit
 openpyxl
 ipykernel
+altair
