@@ -1,6 +1,8 @@
 import streamlit as st
-import pickle
+import pandas as pd
 import requests
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # -----------------------------
 # PAGE CONFIG
@@ -12,18 +14,47 @@ st.set_page_config(
 )
 
 # -----------------------------
-# LOAD DATA
+# API KEY
 # -----------------------------
-movies = pickle.load(open("models/movies.pkl", "rb"))
-similarity = pickle.load(open("models/similarity.pkl", "rb"))
-
-# -----------------------------
-# TMDB API KEY
 API_KEY = st.secrets["tmdb_api_key"]
 
+# -----------------------------
+# LOAD DATA
+# -----------------------------
+@st.cache_data
+def load_data():
+    movies = pd.read_csv("data/tmdb_5000_movies.csv")
+    credits = pd.read_csv("data/tmdb_5000_credits.csv")
+
+    movies = movies.merge(credits, on="title")
+
+    movies = movies[['movie_id','title','overview','genres','keywords','cast','crew']]
+    movies.dropna(inplace=True)
+
+    # simple tag creation
+    movies['tags'] = movies['overview']
+
+    return movies
+
+movies = load_data()
 
 # -----------------------------
-# FETCH POSTER USING MOVIE NAME
+# VECTORIZE + SIMILARITY
+# -----------------------------
+@st.cache_resource
+def create_similarity(movies):
+
+    cv = CountVectorizer(max_features=5000, stop_words='english')
+    vectors = cv.fit_transform(movies['tags']).toarray()
+
+    similarity = cosine_similarity(vectors)
+
+    return similarity
+
+similarity = create_similarity(movies)
+
+# -----------------------------
+# FETCH POSTER
 # -----------------------------
 def fetch_poster(movie_title):
 
@@ -33,6 +64,7 @@ def fetch_poster(movie_title):
     data = data.json()
 
     if len(data["results"]) > 0:
+
         poster_path = data["results"][0]["poster_path"]
 
         if poster_path:
@@ -64,7 +96,6 @@ def recommend(movie):
         movie_title = movies.iloc[i[0]]["title"]
 
         recommended_movies.append(movie_title)
-
         recommended_posters.append(fetch_poster(movie_title))
 
     return recommended_movies, recommended_posters
