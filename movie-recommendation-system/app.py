@@ -1,3 +1,14 @@
+import os
+import pickle
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+movies_path = os.path.join(BASE_DIR, "models", "movies.pkl")
+vectors_path = os.path.join(BASE_DIR, "models", "vectors.pkl")
+
+movies = pickle.load(open(movies_path, "rb"))
+similarity = pickle.load(open(vectors_path, "rb"))
+
 import streamlit as st
 import pickle
 import requests
