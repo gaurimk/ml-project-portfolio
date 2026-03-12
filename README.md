@@ -1,24 +1,24 @@
 ## 🚀 Live Machine Learning Applications
 
-Explore my deployed Machine Learning projects built with **Python, Scikit-learn, NLP, and Streamlit**.
+Explore my deployed Machine Learning applications built using **Python, Scikit-learn, NLP, and Streamlit**.
 
 ---
 
 ### 📊 Customer Churn Prediction
-Predict whether a customer is likely to **leave a service** based on customer attributes.
+Predict whether a customer is likely to **churn (leave a service)** based on customer attributes and behavior.
 
-[![Open App](https://img.shields.io/badge/Launch%20App-Streamlit-blue?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-stmw7l6wvehke4xx3uhmmr.streamlit.app/)
+[![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-blue?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-gxtwdusydxzwowzgfje7s8.streamlit.app/)
 
 ---
 
 ### 🏠 House Price Prediction
-Estimate the **price of a house** based on features like living area, bedrooms, and bathrooms.
+Estimate the **price of a house** based on features like living area, number of bedrooms, and bathrooms using a regression model.
 
-[![Open App](https://img.shields.io/badge/Launch%20App-Streamlit-green?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-grmeeh8kfruqdaftxjawp7.streamlit.app/)
+[![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-green?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-mpyrflaeoao3xkgqhvmbbt.streamlit.app/)
 
 ---
 
 ### 🎬 Movie Review Sentiment Analysis
-Classify movie reviews as **Positive or Negative** using Natural Language Processing (TF-IDF + ML model).
+Classify movie reviews as **Positive or Negative** using Natural Language Processing with **TF-IDF vectorization and machine learning**.
 
-[![Open App](https://img.shields.io/badge/Launch%20App-Streamlit-red?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-tnm5scqyyjb7hbbv8ef8ex.streamlit.app/)
+[![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-red?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-owz2cuq7cvt9oynu7wqxqx.streamlit.app/)
