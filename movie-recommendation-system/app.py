@@ -1,16 +1,6 @@
 import os
 import pickle
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-movies_path = os.path.join(BASE_DIR, "models", "movies.pkl")
-vectors_path = os.path.join(BASE_DIR, "models", "vectors.pkl")
-
-movies = pickle.load(open(movies_path, "rb"))
-similarity = pickle.load(open(vectors_path, "rb"))
-
 import streamlit as st
-import pickle
 import requests
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -24,12 +14,20 @@ st.set_page_config(
 )
 
 # -----------------------------
+# PATH SETUP
+# -----------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MOVIES_PATH = os.path.join(BASE_DIR, "models", "movies.pkl")
+VECTORS_PATH = os.path.join(BASE_DIR, "models", "vectors.pkl")
+
+# -----------------------------
 # LOAD MODELS (CACHED)
 # -----------------------------
 @st.cache_resource
 def load_models():
-    movies = pickle.load(open("models/movies.pkl", "rb"))
-    vectors = pickle.load(open("models/vectors.pkl", "rb"))
+    movies = pickle.load(open(MOVIES_PATH, "rb"))
+    vectors = pickle.load(open(VECTORS_PATH, "rb"))
     return movies, vectors
 
 movies, vectors = load_models()
@@ -51,14 +49,12 @@ def fetch_poster(movie_title):
     data = response.json()
 
     if data.get("results"):
-
         poster_path = data["results"][0].get("poster_path")
 
         if poster_path:
             return "https://image.tmdb.org/t/p/w500/" + poster_path
 
     return "https://via.placeholder.com/500x750?text=No+Poster"
-
 
 # -----------------------------
 # RECOMMEND FUNCTION
@@ -79,7 +75,6 @@ def recommend(movie):
     recommended_posters = []
 
     for i in movie_list:
-
         movie_title = movies.iloc[i[0]].title
 
         recommended_movies.append(movie_title)
@@ -87,12 +82,10 @@ def recommend(movie):
 
     return recommended_movies, recommended_posters
 
-
 # -----------------------------
 # UI
 # -----------------------------
 st.title("🎬 Movie Recommendation System")
-
 st.write("Select a movie and get similar movie recommendations.")
 
 movie_list = movies["title"].values
@@ -106,7 +99,6 @@ col1, col2, col3 = st.columns([1,2,1])
 
 with col2:
     recommend_btn = st.button("Recommend")
-
 
 # -----------------------------
 # SHOW RESULTS
@@ -139,7 +131,6 @@ if recommend_btn:
     with col5:
         st.image(posters[4], use_container_width=True)
         st.caption(names[4])
-
 
 # -----------------------------
 # FOOTER
