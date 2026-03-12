@@ -6,8 +6,12 @@ class PredictPipeline:
 
     def __init__(self):
 
-        self.model = pickle.load(open("artifacts/model.pkl", "rb"))
-        self.features = pickle.load(open("artifacts/features.pkl", "rb"))
+        import os
+        import pickle
+
+        model_path = os.path.join("flight-price-prediction", "artifacts", "model.pkl")
+        self.model = pickle.load(open(model_path, "rb"))
+        os.path.join("flight-price-prediction","artifacts","features.pkl")
 
         self.fe = FeatureEngineering()
 

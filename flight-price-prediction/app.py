@@ -22,7 +22,7 @@ if predict:
         "Dep_Time":["10:00"],
         "Arrival_Time":["12:00"],
         "Duration":["2h 0m"],
-        "Route":["DEL → CCU"],
+        "Route":["DEL - CCU"],   # safer than arrow symbol
         "Additional_Info":["No info"]
     })
 
