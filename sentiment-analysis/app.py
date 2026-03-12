@@ -4,8 +4,16 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
 # Load model and vectorizer
-model = joblib.load("models/sentiment_model.pkl")
-vectorizer = joblib.load("models/vectorizer.pkl")
+import os
+import joblib
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model_path = os.path.join(BASE_DIR, "models", "sentiment_model.pkl")
+vectorizer_path = os.path.join(BASE_DIR, "models", "vectorizer.pkl")
+
+model = joblib.load(model_path)
+vectorizer = joblib.load(vectorizer_path)
 
 st.title("🎬 Movie Review Sentiment Analysis")
 
