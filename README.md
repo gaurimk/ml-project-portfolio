@@ -18,6 +18,13 @@ Estimate the **price of a house** based on features like living area, number of 
 
 ---
 
+### ✈ Flight Price Prediction
+Predict the **estimated price of airline tickets** based on airline, source, destination, stops, and journey details using machine learning.
+
+[![Launch App](https://img.shields.io/badge/Launch%20App-Streamlit-orange?style=for-the-badge&logo=streamlit)](https://ml-project-portfolio-f9rfesn3j8appppoydyfhsr.streamlit.app/)
+
+---
+
 ### 🎬 Movie Review Sentiment Analysis
 Classify movie reviews as **Positive or Negative** using Natural Language Processing with **TF-IDF vectorization and machine learning**.
 
