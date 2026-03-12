@@ -11,10 +11,10 @@ ENV/
 # Mac system files
 .DS_Store
 
-# Jupyter
+# Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Python build
+# Python build files
 build/
 dist/
 *.egg-info/
