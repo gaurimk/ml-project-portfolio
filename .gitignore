@@ -31,3 +31,7 @@ dist/
 
 # Environment variables
 .env
+
+# Datasets
+data/
+*.csv
