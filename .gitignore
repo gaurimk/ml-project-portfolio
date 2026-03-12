@@ -2,12 +2,14 @@
 __pycache__/
 *.pyc
 
-# Virtual env
+# Virtual environment
 venv/
 
-
 # Streamlit secrets
-.streamlit/
+.streamlit/secrets.toml
 
-# Models
-movie-recommendation-system/models/
+# Data files (optional)
+data/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/

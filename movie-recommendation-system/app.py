@@ -1,8 +1,6 @@
 import streamlit as st
-import pandas as pd
+import pickle
 import requests
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 # -----------------------------
 # PAGE CONFIG
@@ -14,58 +12,37 @@ st.set_page_config(
 )
 
 # -----------------------------
-# API KEY
+# LOAD MODELS (CACHED)
+# -----------------------------
+@st.cache_resource
+def load_models():
+    movies = pickle.load(open("models/movies.pkl", "rb"))
+    similarity = pickle.load(open("models/similarity.pkl", "rb"))
+    return movies, similarity
+
+movies, similarity = load_models()
+
+
+# -----------------------------
+# TMDB API KEY
 # -----------------------------
 API_KEY = st.secrets["tmdb_api_key"]
 
+
 # -----------------------------
-# LOAD DATA
+# FETCH POSTER (CACHED)
 # -----------------------------
 @st.cache_data
-def load_data():
-    movies = pd.read_csv("data/tmdb_5000_movies.csv")
-    credits = pd.read_csv("data/tmdb_5000_credits.csv")
-
-    movies = movies.merge(credits, on="title")
-
-    movies = movies[['movie_id','title','overview','genres','keywords','cast','crew']]
-    movies.dropna(inplace=True)
-
-    # simple tag creation
-    movies['tags'] = movies['overview']
-
-    return movies
-
-movies = load_data()
-
-# -----------------------------
-# VECTORIZE + SIMILARITY
-# -----------------------------
-@st.cache_resource
-def create_similarity(movies):
-
-    cv = CountVectorizer(max_features=2000, stop_words='english')
-    vectors = cv.fit_transform(movies['tags']).toarray()
-
-    similarity = cosine_similarity(vectors)
-
-    return similarity
-
-similarity = create_similarity(movies)
-
-# -----------------------------
-# FETCH POSTER
-# -----------------------------
 def fetch_poster(movie_title):
 
     search_url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
 
-    data = requests.get(search_url)
-    data = data.json()
+    response = requests.get(search_url)
+    data = response.json()
 
-    if len(data["results"]) > 0:
+    if data.get("results"):
 
-        poster_path = data["results"][0]["poster_path"]
+        poster_path = data["results"][0].get("poster_path")
 
         if poster_path:
             return "https://image.tmdb.org/t/p/w500/" + poster_path
@@ -78,11 +55,11 @@ def fetch_poster(movie_title):
 # -----------------------------
 def recommend(movie):
 
-    index = movies[movies['title'] == movie].index[0]
+    index = movies[movies["title"] == movie].index[0]
 
     distances = similarity[index]
 
-    movies_list = sorted(
+    movie_list = sorted(
         list(enumerate(distances)),
         reverse=True,
         key=lambda x: x[1]
@@ -91,12 +68,14 @@ def recommend(movie):
     recommended_movies = []
     recommended_posters = []
 
-    for i in movies_list:
+    for i in movie_list:
 
         movie_title = movies.iloc[i[0]]["title"]
 
         recommended_movies.append(movie_title)
-        recommended_posters.append(fetch_poster(movie_title))
+
+        poster = fetch_poster(movie_title)
+        recommended_posters.append(poster)
 
     return recommended_movies, recommended_posters
 
@@ -108,7 +87,7 @@ st.title("🎬 Movie Recommendation System")
 
 st.write("Select a movie and get similar movie recommendations.")
 
-movie_list = movies['title'].values
+movie_list = movies["title"].values
 
 selected_movie = st.selectbox(
     "Select a movie",
@@ -127,6 +106,7 @@ with col2:
 if recommend_btn:
 
     st.divider()
+
     st.subheader("🎥 Recommended Movies")
 
     names, posters = recommend(selected_movie)
@@ -134,23 +114,23 @@ if recommend_btn:
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        st.image(posters[0])
+        st.image(posters[0], use_container_width=True)
         st.caption(names[0])
 
     with col2:
-        st.image(posters[1])
+        st.image(posters[1], use_container_width=True)
         st.caption(names[1])
 
     with col3:
-        st.image(posters[2])
+        st.image(posters[2], use_container_width=True)
         st.caption(names[2])
 
     with col4:
-        st.image(posters[3])
+        st.image(posters[3], use_container_width=True)
         st.caption(names[3])
 
     with col5:
-        st.image(posters[4])
+        st.image(posters[4], use_container_width=True)
         st.caption(names[4])
 
 
