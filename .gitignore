@@ -1,16 +1,17 @@
-# Virtual environments
-venv/
-.env
+# Ignore datasets
+movie-recommendation-system/data/
+sentiment-analysis/data/
+
+# Ignore model files if large
+*.pkl
 
 # Python cache
 __pycache__/
 *.pyc
 
-# Jupyter
-.ipynb_checkpoints/
+# Virtual environments
+venv/
+.env
 
-# MacOS
+# Mac
 .DS_Store
-
-# Ignore datasets
-sentiment-analysis/data/
