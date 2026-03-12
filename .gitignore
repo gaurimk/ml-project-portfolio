@@ -1,17 +1,15 @@
-# Ignore datasets
-movie-recommendation-system/data/
-sentiment-analysis/data/
-
-# Ignore model files if large
-*.pkl
-
-# Python cache
+# Python
 __pycache__/
 *.pyc
 
-# Virtual environments
+# Virtual env
 venv/
-.env
 
-# Mac
-.DS_Store
+# Data
+data/
+
+# Streamlit secrets
+.streamlit/
+
+# Models
+movie-recommendation-system/models/
