@@ -1,4 +1,4 @@
-# Python
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -11,10 +11,10 @@ ENV/
 # Mac system files
 .DS_Store
 
-# Jupyter Notebook checkpoints
+# Jupyter
 .ipynb_checkpoints/
 
-# Python build files
+# Python build
 build/
 dist/
 *.egg-info/
@@ -34,4 +34,6 @@ dist/
 
 # Datasets
 data/
+
+# Ignore raw CSV exports
 *.csv
