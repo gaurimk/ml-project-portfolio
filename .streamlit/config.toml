@@ -1,6 +1,8 @@
+
+
 [server]
 headless = true
 port = 8501
 
-[global]
-pythonVersion = "3.11"
+[runner]
+python_version = "3.11"
